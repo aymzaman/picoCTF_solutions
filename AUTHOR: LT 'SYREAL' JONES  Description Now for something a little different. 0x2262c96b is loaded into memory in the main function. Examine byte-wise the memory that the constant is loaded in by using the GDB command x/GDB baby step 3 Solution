@@ -1,7 +1,0 @@
-To view the main function we can use the x function to view the memory https://visualgdb.com/gdbreference/commands/x
-This command allowd to display the memory in different formats, in this case we would use the instructions format, 
-x/100i main 100 specified the number of instructions we would get, main is the memory location we are examining 
-We can now examine the main function and see what is it doing
-we can see that our value 0x2262c96b is being saved at rbp-0x4.
-we use that as our breakingpoint, we can then use the x/4xb $rbp-0x4, which would give us our flag
-picoCTF{0x2262c96b}
