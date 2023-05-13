@@ -1,15 +1,15 @@
-I have solved this using Linux Ubuntu 
-First thing i always do is use chmod 776 <file_name>  to change permession on the file. As a default all the file we download especially executables will not have permesion to run inside your system.
-To verifiy the type of file we have we use the command file <file_name> in terminal. This will show us the type of file we are working with, although we know we would need to use gdb its a good practice 
-Now that we have permession to run the executable, we use ./<file_name> to run the executables, we can see nothing happens. So next we would try running it with gdb.
-To install gdb we first update our system using sudo apt update as a good practice to update our system and repository. 
-We can then install gdb using the command sudo apt-get install gdb.
-gdb or GNU debugger can be used to look inside a running program, allowing us to see under the hood while the program is running, to run gdb we simply type in the termianl nexto the file name.
-Make sure you are in the same directory as the file, the run: gdb <file_name>
-This would start the program and now we can use gdb commands to examine the program in details. If you type info and press enter, this will give you a list of commands you can use.
-In the hints we get from the challange, it mentions the main function inside the program. Looking at the GDB manual https://www.tutorialspoint.com/gnu_debugger/gdb_commands.htm
-We can set a breakpoint in our program, in this case we set our breakpoint on main where the program starts and where the challage asks to figure out the value of eax.
-After setting our breakpoint we can run the program using command run or r. The program will stop at the first line on main, looking at this we can see that the hex value 0x86342 is being moved to the eax register.
-To complete these challanges a basic understanding of assamely is a most, 0x555555555138 <main+15>        mov    eax, 0x86342 
-looking back at this code we can see that the the command mov which means copy value is utilised to move the hex value to register eax. 
-Using online conversion tools, we convert the hex value to decimals as the challange asks, we put in out flag: picoCTF{549698}
+I have solved this using Linux Ubuntu. The first thing I always do is use "chmod 776 <file_name>" to change the file permissions. By default, all the files we download, especially executables, do not have the permission to run inside your system.
+
+To verify the type of file we have, we use the command "file <file_name>" in the terminal. This will show us the type of file we are working with, although we know we would need to use gdb; it's good practice.
+
+Now that we have permission to run the executable, we use "./<file_name>" to run the executables. We can see nothing happens. So next, we would try running it with gdb.
+
+To install gdb, we first update our system using "sudo apt update" as a good practice to update our system and repository. We can then install gdb using the command "sudo apt-get install gdb".
+
+Gdb or GNU debugger can be used to look inside a running program, allowing us to see under the hood while the program is running. To run gdb, we simply type in the terminal next to the file name. Make sure you are in the same directory as the file, then run "gdb <file_name>".
+
+This would start the program, and now we can use gdb commands to examine the program in detail. If you type "info" and press enter, this will give you a list of commands you can use. In the hints we get from the challenge, it mentions the main function inside the program. Looking at the GDB manual, we can set a breakpoint in our program. In this case, we set our breakpoint on main where the program starts and where the challenge asks to figure out the value of eax.
+
+After setting our breakpoint, we can run the program using the "run" or "r" command. The program will stop at the first line on main. Looking at this, we can see that the hex value 0x86342 is being moved to the eax register. To complete these challenges, a basic understanding of assembly is a must. 0x555555555138 <main+15> mov eax, 0x86342. Looking back at this code, we can see that the command "mov," which means "copy value," is utilized to move the hex value to register eax.
+
+Using online conversion tools, we convert the hex value to decimals as the challenge asks. We put in our flag: picoCTF{549698}.
