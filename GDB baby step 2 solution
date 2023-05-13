@@ -1,0 +1,44 @@
+In this challenge, we are also asked to use gdb to acquire the value of the eax register, which would be our flag. After changing the permissions on the file using chmod 776 <file_name>, we run it using gdb.
+ At this point, we can also set our breakpoint at the main function using the command: b main. We run the program, and that should run the program until we reach the main function. This challenge requires a more in-depth understanding of assembly, and I will try to explain it the best I can.
+
+At the start of the main function, we can see from the above code that we move different values onto the stack. Rbp stands for "base pointer register". 
+So, at each position on the stack rbp-0x14 or rbp-0x8, we are moving values onto them. We can see the values such as edi, rsi, and the hex values.
+ We are mainly concerned with the hex values. I have typed in the decimal value of the hex because they will be important later. Following on from the code, we see:
+
+0x40112a <main+36> jmp 0x401136 <main+48>
+
+This command tells the program to jump or go to another part of the main function at memory location: 0x401136. We can set our next breakpoint to that location by using b *0x401136. Unlike functions break, we have to use the * sign when we add an address. Following on from the code by typing continue or c, we see:
+
+0x401139 <main+51> cmp eax, DWORD PTR [rbp-0xc]
+0x40113c <main+54> jl 0x40112c <main+38>
+
+These two commands tell the program to compare the value at eax and the stack pointer at rbp-0xc. If eax is less (jl) than the value at rbp-0xc, the program jumps to 0x40112c.
+ We can set a breakpoint again at 0x40112c, and here we can see that the program is set up as a loop.
+
+0x40112c <main+38> mov eax, DWORD PTR [rbp-0x8]
+0x40112f <main+41> add DWORD PTR [rbp-0x4], eax
+0x401132 <main+44> add DWORD PTR [rbp-0x8], 0x1
+●→ 0x401136 <main+48> mov eax, DWORD PTR [rbp-0x8]
+0x401139 <main+51> cmp eax, DWORD PTR [rbp-0xc]
+0x40113c <main+54> jl 0x40112c <main+38>
+0x40113e <main+56> mov eax, DWORD PTR [rbp-0x4]
+0x401141 <main+59> pop rbp
+0x401142 <main+60> ret
+
+As long as the value of eax is lower than rbp-0xc which is 607, the function will return to main+38. The program is basically adding 1 (0x1) with every loop. Rbp-0x8 = 0 at the start of the loop. We can solve this in two ways:
+
+The easier option would be to set the breakpoints at the ret point: break *0x401142 and then by using print $eax. We use the $ symbol when printing a register.
+
+The second way is a bit harder and we have to do our own calculations. Since eax is set to rbp-0x4 at the end of the function and we are looping 607 times, one might think that eax would also increment by 607.
+ However, what actually happens is that although we increment rbp-0x8 by 1 with each loop, we are adding the total of rbp-0x8 to eax with each loop. So, when the value of rbp-0x4 is 200, for example, with rbp-0x8 we only add 1. 
+But at rbp-0x4, we are adding the total with each iteration, so it would be +200, +201, +202, and so on until the loop finishes.
+
+Using the formula sum = 606(606+1)/2 to calculate the sum of all numbers, the value of rbp-0x4 was already 123098, so we get a total of 307019, which is our flag.
+
+Therefore, the flag is picoCTF{307019}.
+
+
+
+
+
+
