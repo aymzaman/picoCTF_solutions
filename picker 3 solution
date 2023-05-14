@@ -1,0 +1,33 @@
+In this task, we are working with a Python program. Our objective is to invoke the win() function, which will print our flag. Previously, we were able to do so using the eval() function to process our input. However, this time, we are unable to do so due to a regex-based filter.
+Our hint is that we may be able to alter the contents of the func_table variable.
+
+When we run the program, we are given four options:
+
+print_table
+read_variable
+write_variable
+getRandomNumber
+First, we tested if the program responds to our requests accordingly. Using option 3 (write_variable), we can name a variable and create its content. However, the regex filter restricts what we can input. We tried creating a variable x with a value of 5*5 and then used option 2 (read_variable) to type x. The response was 25, which confirms that we can make changes to the system.
+
+Next, we tried creating a func_table to change the program's behavior and invoke the win() function. However, our changes didn't work as we kept getting the response "Table has been corrupted." We tried different methods, such as changing FUNC_TABLE_SIZE to 4 or the FUNC_TABLE_ENTRY_SIZE to 32, but nothing seemed to work. We also tried methods to bypass the filter, but to no avail.
+
+Eventually, we noticed the code:
+
+if len(func_table) != FUNC_TABLE_ENTRY_SIZE * FUNC_TABLE_SIZE:
+    return False
+This code verifies the table's condition. If the number of characters in func_table is not equal to 128, the program stops working, and we have to use the reset function in our program.
+
+Knowing this, we changed the table variable to contain win() and exactly 128 characters. This seemed to work as the program didn't crash, and we were able to call the win() function.
+It's not easy to figure out the exact count of 128, but I found it best to open Python and check the length of the input with len().
+The important part is being able to call the win() function from the table, which I eventually did.
+
+Our hex flag is: 0x70 0x69 0x63 0x6f 0x43 0x54 0x46 0x7b 0x37 0x68 0x31 0x35 0x5f 0x31 0x35 0x5f 0x77 0x68 0x34 0x37 0x5f 0x77 0x33 0x5f 0x67 0x33 0x37 0x5f 0x77 0x31 0x37 0x68 0x5f 0x75 0x35 0x33 0x72 0x35 0x5f 0x31 0x6e 0x5f 0x63 0x68 0x34 0x72 0x67 0x33 0x5f 0x63 0x32 0x30 0x66 0x35 0x32 0x32 0x32 0x7d.
+
+By building a Python file to convert hex to binary, we can convert our hex result and get the flag: 
+picoCTF{7h15_15_wh47_w3_g37_w17h_u53r5_1n_ch4rg3_c20f5222}.
+
+
+
+
+
+
