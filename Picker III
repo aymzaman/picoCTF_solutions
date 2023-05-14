@@ -1,0 +1,7 @@
+AUTHOR: LT 'SYREAL' JONES
+
+Description
+Can you figure out how this program works to get the flag?
+Connect to the program with netcat:
+$ nc saturn.picoctf.net 50066
+The program's source code can be downloaded here.
