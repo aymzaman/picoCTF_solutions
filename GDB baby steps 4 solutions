@@ -1,0 +1,8 @@
+In this challange we are tasked with finding the constant that is used to multiply with eax, using x to examine the memory of
+the main functions we can see that there is another function call:
+  0x401142 <main+38>:	call   0x401106 <func1>
+So i set my next breakpoints at this address and we can see this code:
+     0x401114 <func1+14>       imul   eax, eax, 0x3269
+imul is multiplication is assambly, we are multiplying eax by 0x3269 and saving the result at eax, by converting the hex
+into decimal we got out flag 12905
+picoCTF{12905}
